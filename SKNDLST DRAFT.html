@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)file:///C:/Users/user/Desktop/SKNDLST_DRAFT.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>SKNDLST DRAFT</title>
+<style>
+body {
+  font-family: Inter, Arial;
+  background:#0a0e14;
+  color:#fff;
+  padding:20px;
+  margin:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background-size:cover;
+  background-position:center;
+}
+
+.title {
+  font-size:42px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:5px;
+  background: linear-gradient(90deg,#ef4444,#facc15,#3b82f6,#f72585);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 6s ease infinite;
+  margin-bottom:20px;
+}
+@keyframes gradientMove {0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+.turn {
+  font-size:38px;
+  font-weight:900;
+  color:#facc15;
+  text-shadow:0 0 15px #f59e0b;
+  margin-bottom:26px;
+  text-align:center;
+}
+
+.players {
+  display:flex;
+  justify-content:center;
+  gap:90px;
+  margin-bottom:32px;
+}
+
+.player-box {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.player-box input {
+  padding:10px 14px;
+  font-size:24px;
+  font-weight:900;
+  border-radius:10px;
+  border:2px solid #555;
+  background:#000;
+  color:#fff;
+  text-align:center;
+  width:240px;
+}
+
+.bans-section, .picks-section {
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  margin-top:10px;
+}
+
+.bans-section .slot,
+.picks-section .slot {
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  font-size:10px;
+  font-weight:900;
+}
+
+.bans-section .slot {
+  border:3px solid #ef4444;
+  box-shadow:0 0 12px #ef4444;
+}
+
+.picks-section .slot {
+  border:3px solid #3b82f6;
+  box-shadow:0 0 12px #3b82f6;
+}
+
+.slot img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(12,128px); /* Горизонтально 12 элементов в ряд */
+  grid-template-rows:repeat(3,150px);    /* 3 ряда */
+  gap:10px;
+  justify-content:center;
+  margin-top:10px;
+}
+
+.champ {
+  width:128px;
+  height:128px;
+  background:#000;
+  border-radius:50%;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:center;
+  cursor:pointer;
+  border:3px solid #222;
+  box-shadow:0 0 20px rgba(255,255,255,0.35);
+  transition:0.25s;
+}
+
+.champ img {
+  width:100%;
+  height:85%;
+  object-fit:cover;
+  border-radius:50%;
+  transform:scale(1.15);
+}
+
+.champ .name {
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+  color:#aaa;
+  margin-top:-4px;
+  text-align:center;
+  word-break:break-word;
+}
+
+.champ:hover {
+  transform:scale(1.1);
+  box-shadow:0 0 26px #facc15;
+  border-color:#facc15;
+}
+
+.champ.disabled {
+  opacity:0.25;
+  filter:grayscale(80%);
+  pointer-events:none;
+}
+
+.actions {
+  display:flex;
+  gap:24px;
+  margin-top:34px;
+}
+
+button {
+  padding:14px 30px;
+  border:none;
+  border-radius:12px;
+  background:#facc15;
+  color:#000;
+  font-size:18px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 0 12px #facc15;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  transition:0.25s;
+}
+button:hover {transform:scale(1.1);box-shadow:0 0 20px #facc15}
+
+/* Модальное окно редактирования через URL */
+.modal-content {
+  background:#11161d;
+  padding:20px;
+  border-radius:16px;
+  border:3px solid #f59e0b;
+  width:300px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.modal-content input {padding:8px; border-radius:8px; border:2px solid #555; background:#000; color:#fff; font-size:16px;}
+</style>
+<style type="text/css" id="operaUserStyle"></style></head>
+<body style="background-image: url(&quot;https://i.pinimg.com/originals/36/43/2e/36432efea95d385a3495f56b434daa96.gif&quot;);">
+
+<div class="title">SKNDLST DRAFT</div>
+<div id="turn" class="turn">Ход: SKNDLST — БАН</div>
+
+<div class="players">
+  <div class="player-box">
+    <input id="nickA" value="Игрок A">
+    <div class="bans-section" id="A_bans"></div>
+    <div class="picks-section" id="A_picks"></div>
+  </div>
+  <div class="player-box">
+    <input id="nickB" value="Игрок B">
+    <div class="bans-section" id="B_bans"></div>
+    <div class="picks-section" id="B_picks"></div>
+  </div>
+</div>
+
+<div class="grid" id="grid"><div class="champ" data-id="c0"><img src="./SKNDLST DRAFT_files/scorpion.png"><div class="name">Scorpion</div></div><div class="champ" data-id="c1"><img src="./SKNDLST DRAFT_files/subzero.png"><div class="name">Sub-Zero</div></div><div class="champ" data-id="c2"><img src="./SKNDLST DRAFT_files/liukang.png"><div class="name">Liu Kang</div></div><div class="champ" data-id="c3"><img src="./SKNDLST DRAFT_files/raiden.png"><div class="name">Raiden</div></div><div class="champ" data-id="c4"><img src="./SKNDLST DRAFT_files/kunglao.png"><div class="name">Kung Lao</div></div><div class="champ" data-id="c5"><img src="./SKNDLST DRAFT_files/kitana.png"><div class="name">Kitana</div></div><div class="champ" data-id="c6"><img src="./SKNDLST DRAFT_files/mileena.png"><div class="name">Mileena</div></div><div class="champ" data-id="c7"><img src="./SKNDLST DRAFT_files/johnnycage.png"><div class="name">Johnny Cage</div></div><div class="champ" data-id="c8"><img src="./SKNDLST DRAFT_files/havik.png"><div class="name">Havic</div></div><div class="champ" data-id="c9"><img src="./SKNDLST DRAFT_files/kenshi.png"><div class="name">Kenshi</div></div><div class="champ" data-id="c10"><img src="./SKNDLST DRAFT_files/takeda.png"><div class="name">Takeda</div></div><div class="champ" data-id="c11"><img src="./SKNDLST DRAFT_files/baraka.png"><div class="name">Baraka</div></div><div class="champ" data-id="c12"><img src="./SKNDLST DRAFT_files/reptile.png"><div class="name">Reptile</div></div><div class="champ" data-id="c13"><img src="./SKNDLST DRAFT_files/shangtsung.png"><div class="name">Shang Tsung</div></div><div class="champ" data-id="c14"><img src="./SKNDLST DRAFT_files/limei.png"><div class="name">Li Mei</div></div><div class="champ" data-id="c15"><img src="./SKNDLST DRAFT_files/tanya.png"><div class="name">Tanya</div></div><div class="champ" data-id="c16"><img src="./SKNDLST DRAFT_files/rain.png"><div class="name">Rain</div></div><div class="champ" data-id="c17"><img src="./SKNDLST DRAFT_files/smoke.png"><div class="name">Smoke</div></div><div class="champ" data-id="c18"><img src="./SKNDLST DRAFT_files/shao.png"><div class="name">Shao</div></div><div class="champ" data-id="c19"><img src="./SKNDLST DRAFT_files/reiko.png"><div class="name">Reiko</div></div><div class="champ" data-id="c20"><img src="./SKNDLST DRAFT_files/sindel.png"><div class="name">Sindel</div></div><div class="champ" data-id="c21"><img src="./SKNDLST DRAFT_files/geras.png"><div class="name">Geras</div></div><div class="champ" data-id="c22"><img src="./SKNDLST DRAFT_files/quanchi.png"><div class="name">Quan Chi</div></div><div class="champ" data-id="c23"><img src="./SKNDLST DRAFT_files/nitara.png"><div class="name">Nitara</div></div><div class="champ" data-id="c24"><img src="./SKNDLST DRAFT_files/ghostface.png"><div class="name">Ghodtface</div></div><div class="champ" data-id="c25"><img src="./SKNDLST DRAFT_files/ermac.png"><div class="name">Ermac</div></div><div class="champ" data-id="c26"><img src="./SKNDLST DRAFT_files/noobsaibot.png"><div class="name">Noob</div></div><div class="champ" data-id="c27"><img src="./SKNDLST DRAFT_files/sektor.png"><div class="name">Sektor</div></div><div class="champ" data-id="c28"><img src="./SKNDLST DRAFT_files/cyrax.png"><div class="name">Cyrax</div></div><div class="champ" data-id="c29"><img src="./SKNDLST DRAFT_files/conan.png"><div class="name">CONAN</div></div><div class="champ" data-id="c30"><img src="./SKNDLST DRAFT_files/t1000.png"><div class="name">T-1000</div></div><div class="champ" data-id="c31"><img src="./SKNDLST DRAFT_files/homelander.png"><div class="name">Homelender</div></div><div class="champ" data-id="c32"><img src="./SKNDLST DRAFT_files/peacemaker.png"><div class="name">Peacemaker</div></div><div class="champ" data-id="c33"><img src="./SKNDLST DRAFT_files/omniman.png"><div class="name">Omniman</div></div><div class="champ" data-id="c34"><img src="./SKNDLST DRAFT_files/ashrah.png"><div class="name">Ashrah</div></div></div>
+
+<div class="actions">
+  <button id="reset">Сброс</button>
+  <button id="changeBg">Сменить фон</button>
+</div>
+
+<div class="modal" id="modal" style="display: none; justify-content: center; align-items: center; position: fixed; inset: 0px; background: rgba(0, 0, 0, 0.92);">
+  <div class="modal-content">
+    <input id="editName" placeholder="Имя персонажа">
+    <input id="editURL" placeholder="URL изображения персонажа">
+    <button id="saveChar">Сохранить</button>
+    <button id="closeModal">Закрыть</button>
+  </div>
+</div>
+
+<script>
+const initialRoster=[
+ "Scorpion","Sub-Zero","Liu Kang","Raiden","Kung Lao","Kitana","Mileena","Johnny Cage","Sonya Blade","Kenshi","Jax Briggs","Baraka","Reptile","Shang Tsung","Li Mei","Tanya","Rain","Smoke","Shao","Reiko","Sindel","Geras","Quan Chi","Nitara","Goro","Ermac","Noob","Sektor","Cyrax","Motaro","Kintaro","Sareena","Ashrah","Frost","Reptile 2"
+];
+
+let banned = [];
+let picked = [];
+let step = 0;
+const order = [
+ {team:'A',type:'ban'}, {team:'B',type:'ban'},
+ {team:'A',type:'ban'}, {team:'B',type:'ban'},
+ {team:'A',type:'ban'}, {team:'B',type:'ban'},
+ {team:'A',type:'pick'}, {team:'B',type:'pick'},
+ {team:'B',type:'pick'}, {team:'A',type:'pick'},
+ {team:'A',type:'pick'}, {team:'B',type:'pick'}
+];
+
+const players = {A:{bans:[],picks:[]},B:{bans:[],picks:[]}};
+
+let roster = initialRoster.map((name,i)=>({
+  id:'c'+i,
+  name:localStorage.getItem('name_'+i)||name,
+  img:localStorage.getItem('img_'+i)||null
+}));
+
+const gridEl = document.getElementById("grid");
+const turnEl = document.getElementById("turn");
+const modalEl = document.getElementById("modal");
+let editingIndex = null;
+
+function saveRosterToLocal(){
+  roster.forEach((c,i)=>{
+    localStorage.setItem('name_'+i,c.name);
+    if(c.img) localStorage.setItem('img_'+i,c.img);
+  });
+}
+
+function updateTurn(){
+  if(step >= order.length){
+    turnEl.textContent = "Драфт завершён";
+    return;
+  }
+  const o = order[step];
+  const nick = o.team==='A'?nickA.value:nickB.value;
+  turnEl.textContent = `Ход: ${nick} — ${o.type==='ban'?'БАН':'ПИК'}`;
+}
+
+function addSlot(container,charId){
+  const char = roster.find(c=>c.id===charId);
+  if(!char) return;
+  const div = document.createElement("div");
+  div.className="slot";
+  div.textContent = char.name;
+  if(char.img) div.innerHTML=`<img src="${char.img}">`;
+  document.getElementById(container).appendChild(div);
+}
+
+function applyAction(charId){
+  const o = order[step];
+  if(!o) return;
+  if(banned.includes(charId) || picked.includes(charId)) return;
+
+  if(o.type==='ban'){
+    banned.push(charId);
+    players[o.team].bans.push(charId);
+    addSlot(`${o.team}_bans`,charId);
+  }
+  if(o.type==='pick'){
+    picked.push(charId);
+    players[o.team].picks.push(charId);
+    addSlot(`${o.team}_picks`,charId);
+  }
+
+  step++;
+  updateTurn();
+  saveRosterToLocal();
+  renderAll();
+}
+
+function openEditModal(index){
+  editingIndex=index;
+  editName.value = roster[index].name;
+  editURL.value = roster[index].img||"";
+  modalEl.style.display="flex";
+}
+
+document.getElementById("saveChar").onclick = () => {
+  if(editingIndex===null) return;
+  roster[editingIndex].name = editName.value.trim() || roster[editingIndex].name;
+  const url = editURL.value.trim();
+  if(url) roster[editingIndex].img = url;
+  saveRosterToLocal();
+  renderAll();
+  modalEl.style.display="none";
+};
+
+document.getElementById("closeModal").onclick = ()=>{modalEl.style.display="none";}
+
+function renderAll(){
+  gridEl.innerHTML="";
+  roster.forEach((char,i)=>{
+    if(banned.includes(char.id)||picked.includes(char.id)) return;
+    const div = document.createElement("div");
+    div.className="champ";
+    div.dataset.id = char.id;
+    div.innerHTML = char.img ? `<img src="${char.img}"><div class="name">${char.name}</div>` : `<div style="width:100%;height:85%;background:#111"></div><div class="name">${char.name}</div>`;
+    div.onclick = ()=>applyAction(char.id);
+    div.oncontextmenu = (e)=>{e.preventDefault(); openEditModal(i);}
+    gridEl.appendChild(div);
+  });
+}
+
+document.getElementById("reset").onclick = ()=>{
+  banned=[];picked=[];step=0;
+  players.A.bans=[];players.B.bans=[];players.A.picks=[];players.B.picks=[];
+  document.getElementById("A_bans").innerHTML="";
+  document.getElementById("B_bans").innerHTML="";
+  document.getElementById("A_picks").innerHTML="";
+  document.getElementById("B_picks").innerHTML="";
+  renderAll(); updateTurn();
+};
+
+document.getElementById("changeBg").onclick = ()=>{
+  const url = prompt("Вставьте ссылку на фон:");
+  if(url){document.body.style.backgroundImage=`url(${url})`; localStorage.setItem("bgImage",url);}
+};
+
+const bg = localStorage.getItem("bgImage");
+if(bg) document.body.style.backgroundImage=`url(${bg})`;
+
+renderAll(); updateTurn();
+</script>
+
+
+</body></html>
